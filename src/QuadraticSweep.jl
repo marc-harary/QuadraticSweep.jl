@@ -1,6 +1,6 @@
 module QuadraticSweep
 
-include("qp.jl")
-# include("subset_anneal.jl")
+include("sweep.jl")
+include("utils.jl")
 
 end
