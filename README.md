@@ -12,3 +12,8 @@ import Pkg
 Pkg.activate(".")
 include("experiments/main.jl")
 ```
+
+## Tests
+```julia
+julia --project=. experiments/main.jl
+```
