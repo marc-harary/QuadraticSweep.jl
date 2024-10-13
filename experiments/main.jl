@@ -1,8 +1,7 @@
 using Random
 using Statistics
 using ProgressMeter
-include("../src/QuadraticSweep.jl")
-using .QuadraticSweep
+using QuadraticSweep
 
 # Experiment parameters
 init_seed = 1234
@@ -27,10 +26,10 @@ end
     x, y = rand(data_rng, n), rand(data_rng, n)
 
     # Separate programatically
-    idxs_prd = QuadraticSweep.sweep(x, y; k = k, L = lift, S = score, rho = false)
+    idxs_prd = sweep(x, y; k = k, L = lift, S = score, rho = false)
 
     # Separate via brute-force
-    idxs_grd, _ = QuadraticSweep.brute_force(x, y, k, score)
+    idxs_grd, _ = brute_force(x, y, k, score)
 
     # Check for match and log seed if not
     if sort(idxs_prd) != sort(idxs_grd)
