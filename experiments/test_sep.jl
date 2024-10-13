@@ -2,8 +2,8 @@ using Random
 using Statistics
 using ProgressMeter
 using DataFrames
-
-include("qp.jl")
+using QuadraticSweep
+import MathOptInterface as MOI
 
 # Experiment parameters
 tol = 1e-10
@@ -79,7 +79,7 @@ for score_idx in 1:length(scores)
             A = lifted[best_idxs, :]
             B = lifted[comp_idxs, :]
 
-            model = intersect(A, B)
+            model = lp_intersect(A, B)
 
             # Collect optimization attributes
             obj_value = MOI.get(model, MOI.ObjectiveValue())
