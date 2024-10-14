@@ -25,7 +25,7 @@ end
 scores = [
     (x, y) -> cor(x, y),
     (x, y) -> cor(x, y)^2,
-    (x, y) -> cov(x),
+    (x, y) -> cov(x, y),
     (x, y) -> var(x) + var(y),
     (x, y) -> var(x) - var(y),
 ]
