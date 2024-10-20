@@ -6,7 +6,14 @@
 
 The quadratic sweep algorithm deterministically detects optimal outliers for correlation analysis in efficient time.
 
+## Build
+Our package can be built by running:
+```bash
+julia --project --color=yes -e 'using Pkg; Pkg.instantiate()'
+```
+
 ## Tests
-```julia
-julia --project=. experiments/main.jl
+The tests included in the original manuscript can be performed by running:
+```bash
+julia --project --color=yes -e 'using Pkg; Pkg.test()'
 ```

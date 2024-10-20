@@ -16,7 +16,7 @@ function sweep(X::Vector, Y::Vector; k::Int64, L::Function, S::Function, rho::Bo
     S_max = nothing
     
     # Iterate over k-sets
-    for P in collect(combinations(1:n, d))
+    for P in combinations(1:n, d)
         # Compute hyperplane
         LX_P = LX[P, :]
         LX_aug = hcat(LX_P, ones(d))
@@ -29,15 +29,12 @@ function sweep(X::Vector, Y::Vector; k::Int64, L::Function, S::Function, rho::Bo
         I = sortperm(phi, rev = rho)
         C = C[I]
         
-        # Iterate over candidate subsets
-        for i in 1:Int(ceil(d / 2))
-            for P_prime in combinations(P, i)
-                S_prime = vcat(C[1:(k - i)], P_prime)
-                alpha_cur = S(X[S_prime], Y[S_prime])
-                if alpha_cur > alpha_max
-                    alpha_max = alpha_cur
-                    S_max = S_prime
-                end
+        for P_prime in powerset(P)
+            S_prime = vcat(C[1:(k - length(P_prime))], P_prime)
+            alpha_cur = S(X[S_prime], Y[S_prime])
+            if alpha_cur > alpha_max
+                alpha_max = alpha_cur
+                S_max = S_prime
             end
         end
     end
