@@ -1,7 +1,8 @@
 using Combinatorics
 using LinearAlgebra
 
-function sweep(X::Vector, Y::Vector; k::Int64, L::Function, S::Function, rho::Bool)#::Vector{Int64}
+function sweep(
+        X::Vector, Y::Vector; k::Int64, L::Function, S::Function, rho::Bool)::Vector{Int64}
     # Lift dataset and store embedding dimension
     LX = L(X, Y)
     n, d = size(LX)
@@ -32,5 +33,5 @@ function sweep(X::Vector, Y::Vector; k::Int64, L::Function, S::Function, rho::Bo
         end
     end
 
-    return S_max, alpha_max
+    return S_max
 end

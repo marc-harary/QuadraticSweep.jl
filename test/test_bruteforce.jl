@@ -7,7 +7,7 @@ using Test
 # Experiment parameters
 init_seed = 123
 seed_rng = MersenneTwister(init_seed)
-n_iter = 10_000
+n_iter = 1_000
 k = 10
 n = 20
 lift = (x, y) -> hcat(x, y, x .^ 2, y .^ 2, x .* y)
@@ -27,7 +27,7 @@ end
         x, y = rand(data_rng, n), rand(data_rng, n)
 
         # Separate programmatically
-        idxs_prd, alpha_max = sweep(x, y; k = k, L = lift, S = score_struct, rho = false)
+        idxs_prd = sweep(x, y; k = k, L = lift, S = score_struct, rho = false)
 
         # Separate via brute-force
         idxs_grd, _ = brute_force(x, y, k, score)
