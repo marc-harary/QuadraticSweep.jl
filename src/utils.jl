@@ -42,7 +42,6 @@ function brute_force(x::Vector{Float64}, y::Vector{Float64}, k::Int,
     return best_idxs, comp_idxs
 end
 
-
 function lp_intersect(A::Matrix{Float64}, B::Matrix{Float64}, tol::Float64 = 1e-10)
     @suppress begin
         @assert size(A, 2)==size(B, 2) "Points must have same dimension"
