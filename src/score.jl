@@ -22,7 +22,9 @@ end
 
 # Score for total variation (tv)
 function score_tv(d::Dataset)
-    return abs(d.s_x - d.s_y) / d.n
+    var_x = d.s_xx / d.n - (d.s_x / d.n)^2
+    var_y = d.s_yy / d.n - (d.s_y / d.n)^2
+    return var_x + var_y
 end
 
 # Lift for tv
@@ -32,7 +34,9 @@ end
 
 # Score for difference of variances (dv)
 function score_dv(d::Dataset)
-    return abs(d.s_xx - d.s_yy) / d.n
+    var_x = d.s_xx / d.n - (d.s_x / d.n)^2
+    var_y = d.s_yy / d.n - (d.s_y / d.n)^2
+    return var_x - var_y
 end
 
 # Lift for dv 
@@ -42,7 +46,7 @@ end
 
 # Score for covariance (cov)
 function score_cov(d::Dataset)
-    return (d.s_xy - d.s_x * d.s_y / d.n) / d.n
+    return d.s_xy / d.n - d.s_x * d.s_y / d.n^2
 end
 
 # Lift for cov
