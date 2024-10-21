@@ -47,8 +47,8 @@ function sweep(
     # Lift dataset
     lifted = lift_func(x, y)
 
-    best_idxs = -Inf
-    best_score = nothing
+    best_idxs = nothing
+    best_score = -Inf
 
     # Iterate over k-sets
     for P in combinations(1:n, d)
@@ -60,7 +60,7 @@ function sweep(
 
         # Sort points by inner products
         C = setdiff(1:n, P)
-        phi = LX[C, :] * omega
+        phi = lifted[C, :] * omega
         I = sortperm(phi, rev = rev)
         C = C[I]
 
