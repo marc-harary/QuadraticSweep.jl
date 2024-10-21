@@ -5,19 +5,17 @@ using QuadraticSweep
 using Test
 
 # Experiment parameters
-init_seed = 1234
+init_seed = 123
 seed_rng = MersenneTwister(init_seed)
 n_iter = 10_000
-k = 8
-n = 15
-score = (x, y) -> cor(x, y)^2
+k = 10
+n = 20
 lift = (x, y) -> hcat(x, y, x .^ 2, y .^ 2, x .* y)
-
-# Convenience function for logging seeds at which experiment failed
-function log_failure(seed::UInt128)
-    open("seed_log.txt", "a") do file
-        write(file, string(seed) * "\n")
-    end
+score = (x, y) -> cor(x, y)^2
+function score_struct(d)
+    num = (d.s_xy - 1 / d.n * d.s_x * d.s_y)^2
+    den = (d.s_xx - 1 / d.n * d.s_x^2) * (d.s_yy - 1 / d.n * d.s_y^2)
+    return num / den
 end
 
 # Wrap the test loop inside a testset
@@ -29,18 +27,13 @@ end
         x, y = rand(data_rng, n), rand(data_rng, n)
 
         # Separate programmatically
-        idxs_prd = sweep(x, y; k = k, L = lift, S = score, rho = false)
+        idxs_prd, alpha_max = sweep(x, y; k = k, L = lift, S = score_struct, rho = false)
 
         # Separate via brute-force
         idxs_grd, _ = brute_force(x, y, k, score)
+        r2 = cor(x[idxs_grd], y[idxs_grd])^2
 
         # Check for match, log seed if not
-        try
-            @test sort(idxs_prd) == sort(idxs_grd)
-        catch e
-            # Log the failure if the test fails
-            log_failure(seed)
-            @error("Test failed at seed: $seed")
-        end
+        @test sort(idxs_prd) == sort(idxs_grd)
     end
 end
