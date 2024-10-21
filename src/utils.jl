@@ -61,4 +61,3 @@ function bitmask2array(bitmask::Int, num_steps::Int)
 
     return binary_array
 end
-
