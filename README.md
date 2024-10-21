@@ -1,4 +1,4 @@
-# Quadratic sweep
+# QuadraticSweep
 
 [![arXiv](https://img.shields.io/badge/arXiv-2410.09316-b31b1b.svg)](https://arxiv.org/abs/2410.09316)
 
@@ -10,7 +10,7 @@ The quadratic sweep algorithm deterministically detects optimal outliers for cor
 `QuadraticSweep.jl` can be installed via
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/marc-harary/QuadraticSweep")
+Pkg.add(url="https://github.com/marc-harary/QuadraticSweep.jl")
 ```
 To only build the package locally, run
 ```bash
