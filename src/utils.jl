@@ -1,11 +1,9 @@
 using Combinatorics
-using LinearAlgebra
 using Ipopt
 using JuMP
 using Distributed
-using Suppressor
-using Base.Threads
 using PyCall
+using Suppressor
 
 function find_optimal_subset(x, y, k, score_function; seed, steps, Tmax, Tmin)
     @suppress begin
@@ -17,29 +15,6 @@ function find_optimal_subset(x, y, k, score_function; seed, steps, Tmax, Tmin)
         best_idxs .+= 1
         return best_idxs
     end
-end
-
-function brute_force(x::Vector{Float64}, y::Vector{Float64}, k::Int,
-        score::Function)::Tuple{Vector{Int64}, Vector{Int64}}
-    @assert size(x)==size(y) "x and y must be the same shape"
-    @assert k<size(x, 1) "k must be less than n"
-
-    n = size(x, 1)
-    best_val = -Inf
-    best_idxs = nothing
-
-    # Try each subset of size k
-    for idxs in combinations(1:n, k)
-        if (val = score(x[idxs], y[idxs])) > best_val
-            best_val = val
-            best_idxs = idxs
-        end
-    end
-
-    # Get complement of best set
-    comp_idxs = setdiff(1:n, best_idxs)
-
-    return best_idxs, comp_idxs
 end
 
 function lp_intersect(A::Matrix{Float64}, B::Matrix{Float64}, tol::Float64 = 1e-10)
