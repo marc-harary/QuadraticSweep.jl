@@ -1,7 +1,3 @@
-using Random
-using Combinatorics
-using Statistics
-
 # Dataset structure
 mutable struct Dataset
     s_xx::Float64

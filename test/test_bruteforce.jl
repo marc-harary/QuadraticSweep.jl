@@ -27,7 +27,8 @@ end
         x, y = rand(data_rng, n), rand(data_rng, n)
 
         # Separate programmatically
-        idxs_prd = sweep(x, y; k = k, L = lift, S = score_struct, rho = false)
+        # idxs_prd = sweep(x, y; k = k, L = lift, S = score_struct, rho = false)
+        idxs_prd = sweep(x, y; k = k, score = :r2)
 
         # Separate via brute-force
         idxs_grd, _ = brute_force(x, y, k, score)

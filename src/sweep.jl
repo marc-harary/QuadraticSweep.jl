@@ -2,7 +2,15 @@ using Combinatorics
 using LinearAlgebra
 
 function sweep(
-        X::Vector, Y::Vector; k::Int64, L::Function, S::Function, rho::Bool)::Vector{Int64}
+        X::Vector, Y::Vector; k::Int64, score::Symbol)::Vector{Int64}
+
+    # Fetch the config (score function, lift function, and rho)
+    config = get(SCORE_FUNCTIONS, score, nothing)
+    if config === nothing
+        error("Invalid score symbol: $score. Available options are: $(keys(SCORE_FUNCTIONS))")
+    end
+    S, L, rho = config
+
     # Lift dataset and store embedding dimension
     LX = L(X, Y)
     n, d = size(LX)
