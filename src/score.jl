@@ -83,7 +83,7 @@ end
 
 # Lift for dv 
 function lift_dv(x::Vector{T}, y::Vector{T})::Matrix{T} where {T}
-    return lift_tv(mat)
+    return lift_tv(x, y)
 end
 
 # Score for covariance (cov)

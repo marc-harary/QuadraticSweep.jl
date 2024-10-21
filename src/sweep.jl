@@ -18,19 +18,19 @@ function brute_force(x::Vector{Float64}, y::Vector{Float64}; k::Int64,
     # Fetch the config
     score_func, _, _, _, n = check_input(x, y; k, score)
 
-    best_val = -Inf
+    best_score = -Inf
     best_idxs = nothing
 
     # Try each subset of size k
     for idxs in combinations(1:n, k)
         dataset = Dataset(x[idxs], y[idxs], score_func)
-        if dataset.j > best_val
-            best_val = dataset.j
+        if dataset.j > best_score
+            best_score = dataset.j
             best_idxs = sort(idxs)
         end
     end
 
-    return best_idxs, best_val
+    return best_idxs, best_score
 end
 
 function sweep(
@@ -40,7 +40,7 @@ function sweep(
     score_func, lift_func, rev, d, n = check_input(x, y; k, score)
 
     # Can only do sweep if n > d
-    if n <= d
+    if n <= d || k <= d
         return brute_force(x, y; k = k, score = score)
     end
 
