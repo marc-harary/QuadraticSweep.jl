@@ -7,13 +7,23 @@
 The quadratic sweep algorithm deterministically detects optimal outliers for correlation analysis in efficient time.
 
 ## Build
-Our package can be built by running:
+`QuadraticSweep.jl` can be installed via
+```julia
+using Pkg
+Pkg.add(url="https://github.com/marc-harary/QuadraticSweep")
+```
+To only build the package locally, run
 ```bash
 julia --project --color=yes -e 'using Pkg; Pkg.instantiate()'
 ```
 
-## Tests
-The tests included in the original manuscript can be performed by running:
+## Tests/reproducibility
+The tests included in the original manuscript can be performed by running
+```julia
+using Pkg
+Pkg.test("QuadraticSweep")
+```
+if `QuadraticSweep.jl` is installed. If it is instead locally built, run
 ```bash
 julia --project --color=yes -e 'using Pkg; Pkg.test()'
 ```
