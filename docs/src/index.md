@@ -48,3 +48,9 @@ QuadraticSweep supports several score functions, and you can specify the score f
 | Covariance                      | `:cov` | $\text{cov}(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y$                                                                    | True       | $\mathcal L(x, y) = \left( x, y, xy \right)$           |
 | Difference of Variances         | `:dv`  | $DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | True       | $\mathcal L(x, y) = \left( x^2, y^2, x, y \right)$     |
 | Fraction of Variance Unexplained| `:fvu` | $FVU = \frac{S_{YY}}{\left( S_{XX} - \frac{1}{k} S_X^2 \right)}$                                                     | False      | $\mathcal L(x, y) = \left( x, x^2, y^2 \right)$        |
+
+
+```@docs
+func
+sweep
+```
