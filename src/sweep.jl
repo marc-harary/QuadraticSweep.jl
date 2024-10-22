@@ -71,10 +71,7 @@ best_idxs, best_score = sweep([1.0, 2.0, 3.0, 4.0], [2.0, 3.0, 6.0, 8.0]; k = 2,
 - brute_force: The fallback method for an exhaustive search.
 - check_input: Validates inputs and retrieves the score function configuration.
 """
-function sweep(
-        x::Vector{Float64}, y::Vector{Float64}; k::Int64, score::Symbol)::Tuple{
-        Vector{Int64}, Float64}
-    # Fetch the config
+function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
     score_func, lift_func, rev, d, n = check_input(x, y; k, score)
 
     # Can only do sweep if n > d
