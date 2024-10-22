@@ -1,8 +1,32 @@
 using Combinatorics
 using LinearAlgebra
 
-function check_input(x::Vector{Float64}, y::Vector{Float64}; k::Int64,
-        score::Symbol)::Tuple{Function, Function, Bool, Int64, Int64}
+"""
+    check_input(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
+
+Checks and validates the input for `sweep` and `brute_force` functions, and retrieves the configuration corresponding to the `score` symbol.
+
+# Arguments
+- `x::Vector{T}`: A vector of values (independent variable), where `T` is a subtype of `Number`.
+- `y::Vector{T}`: A vector of values (dependent variable), where `T` is a subtype of `Number`. Must have the same length as `x`.
+- `k::Int`: The number of points to include in the subset.
+- `score::Symbol`: A symbol representing the score function to use. It must match a valid key in `SCORE_FUNCTIONS`.
+
+# Returns
+- A tuple containing:
+    1. `score_func::Function`: The score function to use.
+    2. `lift_func::Function`: The function to "lift" the dataset for higher-dimensional calculations.
+    3. `rev::Bool`: Whether to reverse the order in sorting.
+    4. `d::Int64`: The dimensionality of the embedding space.
+    5. `n::Int64`: The number of data points.
+
+# Throws
+- `AssertionError` if `x` and `y` do not meet the expected constraints (e.g., `k < n`, `x` and `y` are the same size).
+- `ErrorException` if `score` is not a valid symbol in `SCORE_FUNCTIONS`.
+
+"""
+function check_input(x::Vector{T}, y::Vector{T}; k::Int64,
+        score::Symbol)::Tuple{Function, Function, Bool, Int64, Int64} where {T <: Number}
     n = length(x)
     @assert length(y)==n "x and y must be the same shape"
     @assert k<n "k must be less than n"
@@ -13,8 +37,33 @@ function check_input(x::Vector{Float64}, y::Vector{Float64}; k::Int64,
     return config..., n
 end
 
-function brute_force(x::Vector{Float64}, y::Vector{Float64}; k::Int64,
-        score::Symbol)::Tuple{Vector{Int64}, Float64}
+"""
+    brute_force(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
+
+Performs a brute-force search to find the subset of `k` points from the dataset `(x, y)` that maximizes the chosen score function.
+
+# Arguments
+- `x::Vector{T}`: A vector of independent variable values.
+- `y::Vector{T}`: A vector of dependent variable values, same length as `x`.
+- `k::Int`: The number of points to select in each subset.
+- `score::Symbol`: A symbol representing the score function to use.
+
+# Returns
+- A tuple containing:
+    1. `best_idxs::Vector{Int64}`: The indices of the best subset of size `k`.
+    2. `best_score::Float64`: The score for the best subset.
+
+# Throws
+- `AssertionError` if `x` and `y` do not meet the expected constraints.
+- `ErrorException` if `score` is not valid.
+
+# Example
+```julia
+best_idxs, best_score = brute_force([1.0, 2.0, 3.0], [2.0, 3.0, 6.0]; k = 2, score = :r2)
+```
+"""
+function brute_force(x::Vector{T}, y::Vector{T}; k::Int,
+        score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
     # Fetch the config
     score_func, _, _, _, n = check_input(x, y; k, score)
 
@@ -66,6 +115,7 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 # Example
 ```julia
 best_idxs, best_score = sweep([1.0, 2.0, 3.0, 4.0], [2.0, 3.0, 6.0, 8.0]; k = 2, score = :r2)
+```
 
 # See also
 - brute_force: The fallback method for an exhaustive search.

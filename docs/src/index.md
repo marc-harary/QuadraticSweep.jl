@@ -53,5 +53,6 @@ QuadraticSweep supports several score functions, and you can specify the score f
 
 
 ```@docs
-sweep
+sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
+brute_force(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
 ```
