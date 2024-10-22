@@ -236,7 +236,7 @@ version = "1.11.0"
 
 [[deps.QuadraticSweep]]
 deps = ["Combinatorics", "LinearAlgebra", "Test"]
-git-tree-sha1 = "10bc2021dbb25a8cb51f689e75db0d61cc1c8b82"
+git-tree-sha1 = "ebaef9e440e4c65b4069cd5c0b1826d7ebf6a9ec"
 repo-rev = "main"
 repo-url = ".."
 uuid = "91564749-0329-4754-9e5a-b90f0fea5875"
