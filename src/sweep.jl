@@ -25,7 +25,7 @@ Checks and validates the input for `sweep` and `brute_force` functions, and retr
 - `ErrorException` if `score` is not a valid symbol in `SCORE_FUNCTIONS`.
 
 """
-function check_input(x::Vector{T}, y::Vector{T}; k::Int64,
+function check_input(x::Vector{T}, y::Vector{T}; k::Int,
         score::Symbol)::Tuple{Function, Function, Bool, Int64, Int64} where {T <: Number}
     n = length(x)
     @assert length(y)==n "x and y must be the same shape"
