@@ -14,7 +14,7 @@ To install QuadraticSweep.jl, you can use Julia's package manager. This package 
 
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/username/QuadraticSweep.jl")
+Pkg.add(url="https://github.com/marc-harary/QuadraticSweep.jl")
 ```
 
 Ensure that you have Julia installed on your system. If not, download and install it from https://julialang.org/downloads/.
@@ -46,11 +46,11 @@ println("Best score: ", best_score)
 
 ## Supported score functions
 QuadraticSweep supports several score functions, and you can specify the score function to maximize by passing the appropriate symbol to the `sweep` function:
-| Name                            | Symbol | Score Equation                                                                                                       | Maximizing | Embedding Equation                       |
-|---------------------------------|--------|----------------------------------------------------------------------------------------------------------------------|------------|------------------------------------------|
-| Coefficient of Determination    | `:r2`  | $R^2 = \frac{\left( S_{XY} - \frac{1}{n} S_X S_Y \right)^2}{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}$ | True       | $\mathcal L(x, y) = \left( x^2, xy, y^2, x, y \right)$ |
-| Correlation Coefficient         | `:cor` | $r = \frac{S_{XY} - \frac{1}{n} S_X S_Y}{\sqrt{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}}$ | True       | $\mathcal L(x, y) = \left( x^2, xy, y^2, x, y \right)$ |
-| Total Variation                 | `:tv`  | $TV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) + \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | False      | $\mathcal L(x, y) = \left( x^2, y^2, x, y \right)$     |
-| Covariance                      | `:cov` | $\text{cov}(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y$                                                                    | True       | $\mathcal L(x, y) = \left( x, y, xy \right)$           |
-| Difference of Variances         | `:dv`  | $DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | True       | $\mathcal L(x, y) = \left( x^2, y^2, x, y \right)$     |
-| Fraction of Variance Unexplained| `:fvu` | $FVU = \frac{S_{YY}}{\left( S_{XX} - \frac{1}{k} S_X^2 \right)}$                                                     | False      | $\mathcal L(x, y) = \left( x, x^2, y^2 \right)$        |
+| Name                            | Symbol | Score Equation                                                                                                                                      | Maximizing | Embedding Equation                                       |
+|----------------------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------|----------------------------------------------------------|
+| Coefficient of Determination     | `:r2`  | ``R^2 = \frac{\left( S_{XY} - \frac{1}{n} S_X S_Y \right)^2}{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}``  | True       | ``\mathcal L(x, y) = (x^2, xy, y^2, x, y)``               |
+| Correlation Coefficient          | `:cor` | ``r = \frac{S_{XY} - \frac{1}{n} S_X S_Y}{\sqrt{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}}``             | True       | ``\mathcal L(x, y) = (x^2, xy, y^2, x, y)``               |
+| Total Variation                  | `:tv`  | ``TV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) + \left( S_{YY} - \frac{1}{k} S_Y^2 \right)``                                                      | False      | ``\mathcal L(x, y) = (x^2, y^2, x, y)``                   |
+| Covariance                       | `:cov` | ``\text{cov}(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y``                                                                                                 | True       | ``\mathcal L(x, y) = (x, y, xy)``                         |
+| Difference of Variances          | `:dv`  | ``DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)``                                                      | True       | ``\mathcal L(x, y) = (x^2, y^2, x, y)``                   |
+| Fraction of Variance Unexplained | `:fvu` | ``FVU = \frac{S_{YY}}{\left( S_{XX} - \frac{1}{k} S_X^2 \right)}``                                                                                  | False      | ``\mathcal L(x, y) = (x, x^2, y^2)``                      |
