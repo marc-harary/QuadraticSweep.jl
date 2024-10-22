@@ -11,24 +11,22 @@ using Pkg
 Pkg.add(url="https://github.com/marc-harary/QuadraticSweep.jl")
 ```
 
-## Documentation
-The documentation for the QuadraticSweep.jl package can be found [here](https://marc-harary.github.io/QuadraticSweep.jl/).
-
 ## Usage
-### Example
-
 ```julia
 using QuadraticSweep
-x, y = rand(10), rand(10)
-inlier_idxs, inlier_score = sweep(x, y; k = 10, score = :r2)
+
+# Sample data
+x = [1.0, 2.0, 3.0, 4.0]
+y = [2.0, 3.0, 6.0, 8.0]
+
+# Finding the best subset using the R^2 score
+k = 2
+score = :r2
+best_idxs, best_score = sweep(x, y; k=k, score=score)
+
+println("Best subset indices: ", best_idxs)
+println("Best score: ", best_score)
 ```
 
-### Score functions
-| Name                            | Symbol | Score Equation                                                                                                       | Maximizing | Embedding Equation                       |
-|---------------------------------|--------|----------------------------------------------------------------------------------------------------------------------|------------|------------------------------------------|
-| Coefficient of Determination    | `:r2`  | $R^2 = \frac{\left( S_{XY} - \frac{1}{n} S_X S_Y \right)^2}{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}$ | True       | $\mathcal L(x, y) = \left( x^2, xy, y^2, x, y \right)$ |
-| Correlation Coefficient         | `:cor` | $r = \frac{S_{XY} - \frac{1}{n} S_X S_Y}{\sqrt{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}}$ | True       | $\mathcal L(x, y) = \left( x^2, xy, y^2, x, y \right)$ |
-| Total Variation                 | `:tv`  | $TV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) + \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | False      | $\mathcal L(x, y) = \left( x^2, y^2, x, y \right)$     |
-| Covariance                      | `:cov` | $\text{cov}(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y$                                                                    | True       | $\mathcal L(x, y) = \left( x, y, xy \right)$           |
-| Difference of Variances         | `:dv`  | $DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | True       | $\mathcal L(x, y) = \left( x^2, y^2, x, y \right)$     |
-| Fraction of Variance Unexplained| `:fvu` | $FVU = \frac{S_{YY}}{\left( S_{XX} - \frac{1}{k} S_X^2 \right)}$                                                     | False      | $\mathcal L(x, y) = \left( x, x^2, y^2 \right)$        |
+## Documentation
+The documentation for the QuadraticSweep.jl package can be found [here](https://marc-harary.github.io/QuadraticSweep.jl/).
