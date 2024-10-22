@@ -46,6 +46,7 @@ println("Best score: ", best_score)
 
 ## Supported score functions
 QuadraticSweep supports several score functions, and you can specify the score function to maximize by passing the appropriate symbol to the `sweep` function:
+
 | Name                            | Symbol | Score Equation                                                                                                                                      | Maximizing | Embedding Equation                                       |
 |----------------------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------|------------|----------------------------------------------------------|
 | Coefficient of Determination     | `:r2`  | ``R^2 = \frac{\left( S_{XY} - \frac{1}{n} S_X S_Y \right)^2}{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}``  | True       | ``\mathcal L(x, y) = (x^2, xy, y^2, x, y)``               |
@@ -54,4 +55,5 @@ QuadraticSweep supports several score functions, and you can specify the score f
 | Covariance                       | `:cov` | ``\text{cov}(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y``                                                                                                 | True       | ``\mathcal L(x, y) = (x, y, xy)``                         |
 | Difference of Variances          | `:dv`  | ``DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)``                                                      | True       | ``\mathcal L(x, y) = (x^2, y^2, x, y)``                   |
 | Fraction of Variance Unexplained | `:fvu` | ``FVU = \frac{S_{YY}}{\left( S_{XX} - \frac{1}{k} S_X^2 \right)}``                                                                                  | False      | ``\mathcal L(x, y) = (x, x^2, y^2)``                      |
-Note that some functions are maximized while others minimized by default by `sweep` and `brute_force`.
+
+Note that some are minimized by default.
