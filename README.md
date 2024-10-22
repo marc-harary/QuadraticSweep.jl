@@ -16,14 +16,14 @@ inlier_idxs, inlier_score = sweep(x, y; k = 10, score = :r2)
 ```
 
 ### Score functions
-| Name                          | Symbol | Score Equation                                                                                                    | Maximizing | Embedding Dimension | Embedding Equation                |
-|-------------------------------|--------|-------------------------------------------------------------------------------------------------------------------|-----------------------|---------------------|-----------------------------------|
-| Coefficient of Determination   | `:r2`  | $R^2 = \frac{(S_{XY} - \frac{1}{n} S_X S_Y)^2}{(S_{XX} - \frac{1}{n} S_X^2) (S_{YY} - \frac{1}{n} S_Y^2)}$     | True            | 5                   | \( (x^2, xy, y^2, x, y) \)       |
-| Correlation Coefficient        | `:cor` | \( r = \frac{S_{XY} - \frac{1}{n} S_X S_Y}{\sqrt{(S_{XX} - \frac{1}{n} S_X^2)(S_{YY} - \frac{1}{n} S_Y^2)}} \)    | True            | 5                   | \( (x^2, xy, y^2, x, y) \)       |
-| Total Variation                | `:tv`  | \( TV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) + \left( S_{YY} - \frac{1}{k} S_Y^2 \right) \)                   | False            | 4                   | \( (x^2, y^2, x, y) \)           |
-| Covariance                     | `:cov` | \( Cov(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y \)                                                                    | True            | 3                   | \( (x, y, xy) \)                 |
-| Difference of Variances        | `:dv`  | \( DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right) \)                   | True            | 4                   | \( (x^2, y^2, x, y) \)           |
-| Fraction of Variance Unexplained| `:fvu` | \( FVU = \frac{(S_{YY}}{S_{XX} - \frac{1}{k} S_X^2} \)                           | False            | 3                   | \( (x, x^2, y^2) \)                 |
+| Name                            | Symbol | Score Equation                                                                                                       | Maximizing | Embedding Equation           |
+|---------------------------------|--------|----------------------------------------------------------------------------------------------------------------------|------------|------------------------------|
+| Coefficient of Determination    | `:r2`  | $R^2 = \frac{(S_{XY} - \frac{1}{n} S_X S_Y)^2}{(S_{XX} - \frac{1}{n} S_X^2) (S_{YY} - \frac{1}{n} S_Y^2)}$           | True       | $\mathcal L(x, y) = (x^2, xy, y^2, x, y)$       |
+| Correlation Coefficient         | `:cor` | $r = \frac{S_{XY} - \frac{1}{n} S_X S_Y}{\sqrt{(S_{XX} - \frac{1}{n} S_X^2)(S_{YY} - \frac{1}{n} S_Y^2)}}$           | True       | $\mathcal L(x, y) = (x^2, xy, y^2, x, y)$       |
+| Total Variation                 | `:tv`  | $TV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) + \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | False      | $\mathcal L(x, y) = (x^2, y^2, x, y)$           |
+| Covariance                      | `:cov` | $\text{cov}(X, Y) = S_{XY} - \frac{1}{k} S_X S_Y$                                                                    | True       | $\mathcal L(x, y) = (x, y, xy)$                 |
+| Difference of Variances         | `:dv`  | $DV = \left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)$                         | True       | $\mathcal L(x, y) = (x^2, y^2, x, y)$           |
+| Fraction of Variance Unexplained| `:fvu` | $FVU = \frac{S_{YY}}{S_{XX} - \frac{1}{k} S_X^2}$                                                                    | False      | $\mathcal L(x, y) = (x, x^2, y^2)$              |
 
 ## Build
 `QuadraticSweep.jl` can be installed via
