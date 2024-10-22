@@ -1,10 +1,15 @@
 # QuadraticSweep
 
 [![arXiv](https://img.shields.io/badge/arXiv-2410.09316-b31b1b.svg)](https://arxiv.org/abs/2410.09316)
+[![Documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://marc-harary.github.io/QuadraticSweep.jl/)
 
 [**Combinatorial optimization of the coefficient of determination**](https://arxiv.org/abs/2410.09316)
 
 The quadratic sweep algorithm deterministically detects optimal outliers for correlation analysis in efficient time.
+
+## Documentation
+
+The documentation for the QuadraticSweep.jl package can be found [here](https://marc-harary.github.io/QuadraticSweep.jl/).
 
 ## Usage
 ### Example
