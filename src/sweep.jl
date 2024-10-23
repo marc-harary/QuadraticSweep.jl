@@ -19,15 +19,22 @@ end
 Performs a brute-force search to find the subset of `k` points from the dataset `(x, y)` that maximizes the chosen score function.
 
 # Arguments
-- `x::Vector{T}`: A vector of independent variable values.
-- `y::Vector{T}`: A vector of dependent variable values, same length as `x`.
-- `k::Int`: The number of points to select in each subset.
-- `score::Symbol`: A symbol representing the score function to use.
+- `x::Vector{T}`: A vector of independent variable values, where `T` is a subtype of `Number`.
+- `y::Vector{T}`: A vector of dependent variable values, with the same length as `x`.
+- `k::Int`: The number of points to select in the optimal subset. Must be between 1 and `n-1` where `n` is the total number of points.
+- `score::Symbol`: A symbol representing the score function to use (e.g., `:r2`, `:cor`, `:tv`). The symbol should correspond to a valid function in `SCORE_FUNCTIONS`.
 
 # Returns
 - A tuple containing:
-    1. `best_idxs::Vector{Int64}`: The indices of the best subset of size `k`.
-    2. `best_score::Float64`: The score for the best subset.
+    1. `best_idxs::Vector{Int64}`: The indices of the `k` points that form the best subset.
+    2. `best_score::Float64`: The maximum score value for the best subset of size `k`.
+
+# Methodology
+- Brute-force combinatorial search.
+
+# Notes
+- Extremely slow for large `n`.
+- Used only as fallback method for `sweep` and for demonstration purposes.
 
 # Throws
 - `AssertionError` if `x` and `y` do not meet the expected constraints.
@@ -35,12 +42,15 @@ Performs a brute-force search to find the subset of `k` points from the dataset 
 
 # Example
 ```julia
-best_idxs, best_score = brute_force([1.0, 2.0, 3.0], [2.0, 3.0, 6.0]; k = 2, score = :r2)
+inlier_indices, inlier_r2 = brute_force(rand(20), rand(20); k = 10, score = :r2)
 ```
+
+# See also
+- sweep: The implementation of the quadratic sweep algorithm.
 """
 function brute_force(x::Vector{T}, y::Vector{T}; k::Int,
         score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
-    # Fetch the config
+    # Get config parameters
     score_func, _, _, _, n = check_input(x, y; k, score)
 
     best_score = -Inf
@@ -80,7 +90,6 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 - If the dataset size `n` is less than or equal to the embedding dimension `d` (from the score function), or if `k <= d`, the function falls back to a brute-force search.
 
 # Notes
-- The function uses a combination of **combinatorics** and **linear algebra** to determine the optimal subset.
 - The score function and the corresponding lifting transformation are retrieved based on the provided `score` symbol.
 - The method ensures efficiency by skipping a brute-force search when possible, instead leveraging the topological sweep to reduce the number of computations.
 
@@ -90,14 +99,14 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 
 # Example
 ```julia
-best_idxs, best_score = sweep([1.0, 2.0, 3.0, 4.0], [2.0, 3.0, 6.0, 8.0]; k = 2, score = :r2)
+inlier_indices, inlier_r2 = sweep(rand(20), rand(20); k = 10, score = :r2)
 ```
 
 # See also
 - brute_force: The fallback method for an exhaustive search.
-- check_input: Validates inputs and retrieves the score function configuration.
 """
-function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
+function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
+    # Get config parameters
     score_func, lift_func, rev, d, n = check_input(x, y; k, score)
 
     # Can only do sweep if n > d
@@ -112,21 +121,20 @@ function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Nu
     best_score = -Inf
 
     # Iterate over k-sets
-    for P in combinations(1:n, d)
+    for pivot_idxs in combinations(1:n, d)
         # Compute hyperplane
-        lifted_P = lifted[P, :]
-        lifted_aug = hcat(lifted_P, ones(d))
-        N = nullspace(lifted_aug)
-        omega = N[1:(end - 1)]
+        lifted_pivot = lifted[pivot_idxs, :]
+        lifted_aug = hcat(lifted_pivot, ones(d))
+        pivot_null = nullspace(lifted_aug)
 
         # Sort points by inner products
-        C = setdiff(1:n, P)
-        phi = lifted[C, :] * omega
-        I = sortperm(phi, rev = rev)
-        C = C[I]
+        comp_idxs = setdiff(1:n, pivot)
+        prod = lifted[C, :] * pivot_null[1:(end - 1)]
+        perm = sortperm(prod, rev = rev)
+        comp_idxs = comp_idxs[perm]
 
         # Do BFS on current set
-        cur_idxs, cur_score = bfs(hcat(x, y), k, C, P, score_func)
+        cur_idxs, cur_score = bfs(hcat(x, y), k, comp_idxs, pivot_idxs, score_func)
 
         # Update best values if necessary
         if cur_score > best_score
