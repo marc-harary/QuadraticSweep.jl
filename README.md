@@ -14,7 +14,8 @@ Pkg.add(url="https://github.com/marc-harary/QuadraticSweep.jl")
 ## Usage
 ```julia
 using QuadraticSweep
-inlier_indices, inlier_r2 = sweep(rand(20), rand(20); k = 17, score = :r2)
+x, y = rand(20), rand(20)
+inlier_indices, inlier_r2 = sweep(x, y; k = 17, score = :r2)
 ```
 
 ## Documentation
