@@ -32,9 +32,6 @@ Performs a brute-force search to find the subset of `k` points from the dataset 
 ```julia
 inlier_indices, inlier_tv = brute_force(rand(15), rand(15); k = 6, score = :tv)
 ```
-
-# See also
-- sweep: The implementation of the quadratic sweep algorithm.
 """
 function brute_force(x::Vector{T}, y::Vector{T}; k::Int,
         score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
@@ -89,9 +86,6 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 ```julia
 inlier_indices, inlier_cor = sweep(rand(25), rand(25); k = 20, score = :cor)
 ```
-
-# See also
-- brute_force: The fallback method for an exhaustive search.
 """
 function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
     # Get config parameters
