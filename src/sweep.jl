@@ -1,18 +1,6 @@
 using Combinatorics
 using LinearAlgebra
 
-function check_input(x::Vector{T}, y::Vector{T}; k::Int,
-        score::Symbol)::Tuple{Function, Function, Bool, Int64, Int64} where {T <: Number}
-    n = length(x)
-    @assert length(y)==n "x and y must be the same shape"
-    @assert k<n "k must be less than n"
-    config = get(SCORE_FUNCTIONS, score, nothing)
-    if config === nothing
-        error("Invalid score symbol: $score. Available options are: $(keys(SCORE_FUNCTIONS))")
-    end
-    return config..., n
-end
-
 """
     brute_force(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol) where {T <: Number}
 
@@ -42,7 +30,7 @@ Performs a brute-force search to find the subset of `k` points from the dataset 
 
 # Example
 ```julia
-inlier_indices, inlier_r2 = brute_force(rand(20), rand(20); k = 10, score = :r2)
+inlier_indices, inlier_tv = brute_force(rand(15), rand(15); k = 6, score = :tv)
 ```
 
 # See also
@@ -99,7 +87,7 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 
 # Example
 ```julia
-inlier_indices, inlier_r2 = sweep(rand(20), rand(20); k = 10, score = :r2)
+inlier_indices, inlier_cor = sweep(rand(25), rand(25); k = 20, score = :cor)
 ```
 
 # See also
@@ -128,8 +116,8 @@ function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol)::Tuple{Vector{
         pivot_null = nullspace(lifted_aug)
 
         # Sort points by inner products
-        comp_idxs = setdiff(1:n, pivot)
-        prod = lifted[C, :] * pivot_null[1:(end - 1)]
+        comp_idxs = setdiff(1:n, pivot_idxs)
+        prod = lifted[comp_idxs, :] * pivot_null[1:(end - 1)]
         perm = sortperm(prod, rev = rev)
         comp_idxs = comp_idxs[perm]
 

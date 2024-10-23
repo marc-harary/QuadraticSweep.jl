@@ -1,5 +1,4 @@
 using Random
-using Statistics
 using ProgressMeter
 using QuadraticSweep
 using Test

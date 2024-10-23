@@ -10,7 +10,7 @@ The package implements two key algorithms:
 
 ## Installation
 
-To install QuadraticSweep.jl, you can use Julia's package manager. This package is not yet registered in the General registry, so it needs to be installed directly from the GitHub repository:
+The package is not yet registered in the General registry, so it needs to be installed directly from the GitHub repository:
 
 ```julia
 using Pkg
@@ -31,7 +31,7 @@ QuadraticSweep supports several score functions, and you can specify the score f
 | Coefficient of Determination     | `:r2`  | ``\frac{\left( S_{XY} - \frac{1}{n} S_X S_Y \right)^2}{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}``  | True       | ``(x^2, xy, y^2, x, y)``               |
 | Correlation Coefficient          | `:cor` | ``\frac{S_{XY} - \frac{1}{n} S_X S_Y}{\sqrt{\left( S_{XX} - \frac{1}{n} S_X^2 \right) \left( S_{YY} - \frac{1}{n} S_Y^2 \right)}}``             | True       | ``(x^2, xy, y^2, x, y)``               |
 | Total Variation                  | `:tv`  | ``\left( S_{XX} - \frac{1}{k} S_X^2 \right) + \left( S_{YY} - \frac{1}{k} S_Y^2 \right)``                                                      | False      | ``(x^2, y^2, x, y)``                   |
-| Covariance                       | `:cov` | ``S_{XY} - \frac{1}{k} S_X S_Y``                                                                                                 | True       | ``\mathcal L(x, y) = (x, y, xy)``                         |
+| Covariance                       | `:cov` | ``S_{XY} - \frac{1}{k} S_X S_Y``                                                                                                 | True       | ``(x, y, xy)``                         |
 | Difference of Variances          | `:dv`  | ``\left( S_{XX} - \frac{1}{k} S_X^2 \right) - \left( S_{YY} - \frac{1}{k} S_Y^2 \right)``                                                      | True       | ``(x^2, y^2, x, y)``                   |
 | Fraction of Variance Unexplained | `:fvu` | ``\frac{S_{YY}}{\left( S_{XX} - \frac{1}{k} S_X^2 \right)}``                                                                                  | False      | ``(x, x^2, y^2)``                      |
 
