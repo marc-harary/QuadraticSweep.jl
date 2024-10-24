@@ -1,3 +1,6 @@
+# Constant to prevent division by zero
+const EPS = 1e-10
+
 # Dataset structure
 mutable struct Dataset
     s_xx::Float64
@@ -44,7 +47,7 @@ end
 function score_r2(d::Dataset)
     num = (d.s_xy - 1 / d.n * d.s_x * d.s_y)^2
     den = (d.s_xx - 1 / d.n * d.s_x^2) * (d.s_yy - 1 / d.n * d.s_y^2)
-    return num / den
+    return num / (den + EPS)
 end
 
 # Lift for R2
@@ -56,7 +59,7 @@ end
 function score_cor(d::Dataset)
     num = d.s_xy - 1 / d.n * d.s_x * d.s_y
     den = sqrt(d.s_xx - 1 / d.n * d.s_x^2) * sqrt(d.s_yy - 1 / d.n * d.s_y^2)
-    return num / den
+    return num / (den + EPS)
 end
 
 # Life for cor
