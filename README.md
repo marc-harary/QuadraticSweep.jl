@@ -28,6 +28,10 @@ inlier_indices, inlier_r2 = sweep(x, y; k = 17, score = :r2)
 
 The documentation for the QuadraticSweep.jl package can be found [here](https://marc-harary.github.io/QuadraticSweep.jl/). It includes supported score functions and more detailed explanations of this package's utilities and core functionality.
 
+## Reproducibility
+
+To replicate the analyses in the original manuscript, see the Jupyter notebooks and `README.md` file in the `notebooks` directory.
+
 ## Citation
 
 If you use this code, please cite:
