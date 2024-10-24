@@ -54,7 +54,9 @@ end
 
 # Score for Pearson correlation coefficient (cor)
 function score_cor(d::Dataset)
-    return d.s_xy / sqrt(d.s_xx * d.s_yy + 1e-10)
+    num = d.s_xy - 1 / d.n * d.s_x * d.s_y
+    den = sqrt(d.s_xx - 1 / d.n * d.s_x^2) * sqrt(d.s_yy - 1 / d.n * d.s_y^2)
+    return num / den
 end
 
 # Life for cor
