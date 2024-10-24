@@ -1,5 +1,5 @@
 # Constant to prevent division by zero
-const EPS = 1e-10
+const EPS = 1e-16
 
 # Dataset structure
 mutable struct Dataset
