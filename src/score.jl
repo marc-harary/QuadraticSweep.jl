@@ -98,12 +98,12 @@ function lift_cov(x::Vector{T}, y::Vector{T})::Matrix{T} where {T}
     return hcat(x .* y, x, y)
 end
 
-# Score for fraction of variance unexplianed (fvu)
+# Score for fraction of variance unexplained (fvu)
 function score_fvu(d::Dataset)
     return d.s_yy / (d.s_xx - 1 / d.n * d.s_x^2)
 end
 
-# Lift for cov
+# Lift for fvu
 function lift_fvu(x::Vector{T}, y::Vector{T})::Matrix{T} where {T}
     return hcat(x, x .^ 2, y .^ 2)
 end
