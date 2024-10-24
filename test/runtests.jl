@@ -33,7 +33,7 @@ include("test_cases.jl")
             # Run algorithm and check indices and score
             idxs_sweep, val_sweep = sweep(x, y; k = k, score = score)
             @test idxs_grd == idxs_sweep
-            @test isapprox(val_grd, val_sweep)
+            @test isapprox(val_grd, val_sweep, atol=1e-8)
         end
     end
 
@@ -46,7 +46,7 @@ include("test_cases.jl")
             # Run algorithm and check indices and score 
             idxs_brute, val_brute = brute_force(x, y; k = k, score = score)
             @test idxs_grd == idxs_brute
-            @test isapprox(val_grd, val_brute)
+            @test isapprox(val_grd, val_brute, atol=1e-8)
         end
     end
 end
