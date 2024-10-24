@@ -11,15 +11,25 @@ mutable struct Dataset
     n::Int64
     j::Float64
     function Dataset(
-            x::Vector{Float64}, y::Vector{Float64}, J::Union{Function, Nothing} = nothing)
+        x::Vector{Float64},
+        y::Vector{Float64},
+        J::Union{Function,Nothing} = nothing,
+    )
         opt = new(sum(x .^ 2), sum(x .* y), sum(y .^ 2), sum(x), sum(y), length(x), 0)
         if !isnothing(J)
             opt.j = J(opt)
         end
         return opt
     end
-    function Dataset(s_xx::Float64, s_xy::Float64, s_yy::Float64, s_x::Float64,
-            s_y::Float64, n::Int64, J::Union{Function, Nothing} = nothing)
+    function Dataset(
+        s_xx::Float64,
+        s_xy::Float64,
+        s_yy::Float64,
+        s_x::Float64,
+        s_y::Float64,
+        n::Int64,
+        J::Union{Function,Nothing} = nothing,
+    )
         opt = new(s_xx, s_xy, s_yy, s_x, s_y, n, 0)
         if !isnothing(J)
             opt.j = J(opt)
@@ -29,7 +39,7 @@ mutable struct Dataset
 end
 
 # Function to update the dataset with a new point (x, y)
-function update(ipt::Dataset, p::Tuple{Float64, Float64}, J::Function)
+function update(ipt::Dataset, p::Tuple{Float64,Float64}, J::Function)
     x, y = p
     opt = Dataset(
         ipt.s_xx + x * x,
@@ -38,7 +48,7 @@ function update(ipt::Dataset, p::Tuple{Float64, Float64}, J::Function)
         ipt.s_x + x,
         ipt.s_y + y,
         ipt.n + 1,
-        J
+        J,
     )
     return opt
 end
@@ -118,5 +128,5 @@ const SCORE_FUNCTIONS = Dict(
     :tv => (score_tv, lift_tv, true, 4),
     :cov => (score_cov, lift_cov, false, 3),
     :dv => (score_dv, lift_dv, false, 4),
-    :fvu => (score_fvu, lift_fvu, true, 3)
+    :fvu => (score_fvu, lift_fvu, true, 3),
 )

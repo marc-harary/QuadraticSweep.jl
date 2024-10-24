@@ -33,8 +33,12 @@ Performs a brute-force search to find the subset of `k` points from the dataset 
 inlier_indices, inlier_tv = brute_force(rand(15), rand(15); k = 6, score = :tv)
 ```
 """
-function brute_force(x::Vector{T}, y::Vector{T}; k::Int,
-        score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
+function brute_force(
+    x::Vector{T},
+    y::Vector{T};
+    k::Int,
+    score::Symbol,
+)::Tuple{Vector{Int64},Float64} where {T<:Number}
     # Get config parameters
     score_func, _, _, _, n = check_input(x, y; k, score)
 
@@ -87,8 +91,12 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 inlier_indices, inlier_cor = sweep(rand(25), rand(25); k = 20, score = :cor)
 ```
 """
-function sweep(x::Vector{T}, y::Vector{T}; k::Int,
-        score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
+function sweep(
+    x::Vector{T},
+    y::Vector{T};
+    k::Int,
+    score::Symbol,
+)::Tuple{Vector{Int64},Float64} where {T<:Number}
     # Get config parameters
     score_func, lift_func, rev, d, n = check_input(x, y; k, score)
 
@@ -112,7 +120,7 @@ function sweep(x::Vector{T}, y::Vector{T}; k::Int,
 
         # Sort points by inner products
         comp_idxs = setdiff(1:n, pivot_idxs)
-        prod = lifted[comp_idxs, :] * pivot_null[1:(end - 1)]
+        prod = lifted[comp_idxs, :] * pivot_null[1:(end-1)]
         perm = sortperm(prod, rev = rev)
         comp_idxs = comp_idxs[perm]
 
