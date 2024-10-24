@@ -87,7 +87,8 @@ Efficiently identifies the subset of `k` points from the dataset `(x, y)` that m
 inlier_indices, inlier_cor = sweep(rand(25), rand(25); k = 20, score = :cor)
 ```
 """
-function sweep(x::Vector{T}, y::Vector{T}; k::Int, score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
+function sweep(x::Vector{T}, y::Vector{T}; k::Int,
+        score::Symbol)::Tuple{Vector{Int64}, Float64} where {T <: Number}
     # Get config parameters
     score_func, lift_func, rev, d, n = check_input(x, y; k, score)
 

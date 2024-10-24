@@ -54,9 +54,7 @@ end
 
 # Score for Pearson correlation coefficient (cor)
 function score_cor(d::Dataset)
-    num = d.s_xy - 1 / d.n * d.s_x * d.s_y
-    den = sqrt(d.s_xx - 1 / d.n * d.s_x^2) * sqrt(d.s_yy - 1 / d.n * d.s_y^2)
-    return num / den
+    return d.s_xy / sqrt(d.s_xx * d.s_yy + 1e-10)
 end
 
 # Life for cor
@@ -98,22 +96,11 @@ function lift_cov(x::Vector{T}, y::Vector{T})::Matrix{T} where {T}
     return hcat(x .* y, x, y)
 end
 
-# Score for fraction of variance unexplianed (fvu)
-function score_fvu(d::Dataset)
-    return d.s_yy / (d.s_xx - 1 / d.n * d.s_x^2)
-end
-
-# Lift for cov
-function lift_fvu(x::Vector{T}, y::Vector{T})::Matrix{T} where {T}
-    return hcat(x, x .^ 2, y .^ 2)
-end
-
 # Mapping from symbols to score functions
 const SCORE_FUNCTIONS = Dict(
     :r2 => (score_r2, lift_r2, false, 5),
     :cor => (score_cor, lift_cor, false, 5),
     :tv => (score_tv, lift_tv, true, 4),
     :cov => (score_cov, lift_cov, false, 3),
-    :dv => (score_dv, lift_dv, false, 4),
-    :fvu => (score_fvu, lift_fvu, true, 3)
+    :dv => (score_dv, lift_dv, false, 4)
 )
